@@ -44,6 +44,7 @@ User-invoked skills run when you explicitly request them. Model-invoked skills c
 - **[repo-workflow](skills/repo-workflow/SKILL.md)**: Apply the shared conventions for repository changes, commits, issues, PRs, merges and releases, while respecting each repository's own rules.
 - **[writing-for-agents](skills/writing-for-agents/SKILL.md)**: Write skills, `AGENTS.md`, `CLAUDE.md` and supporting agent documentation with clear triggers, steps and completion criteria.
 - **[unslop](skills/unslop/SKILL.md)**: Edit writing to remove AI tells while preserving its meaning and intended tone.
+- **[librenms-os-support](skills/librenms-os-support/SKILL.md)**: Add or improve device OS support in a LibreNMS checkout, including detection, discovery, vendor MIBs and SNMP test fixtures.
 
 This reference layout takes inspiration from [Matt Pocock's skills repository](https://github.com/mattpocock/skills#reference).
 
@@ -142,7 +143,7 @@ Report vulnerabilities privately using the process in [SECURITY.md](SECURITY.md)
 
 ## Licence
 
-Original material is available under the [MIT licence](LICENSE). Imported material retains its upstream copyright and licence notices; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). The `writing-for-agents` skill is copied unchanged from Matt Pocock's repository.
+Original material is available under the [MIT licence](LICENSE). Imported material retains its upstream copyright and licence notices; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). The `writing-for-agents` skill is copied unchanged from Matt Pocock's repository. `unslop` is adapted from Lauren Tan's pstack under MIT. `librenms-os-support` retains LibreNMS's GPLv3 terms, with its upstream licence included in the skill folder.
 
 ---
 

@@ -1,68 +1,67 @@
 ---
 name: setup-agent-skills
-description: Set up Claude Code and Codex to use this shared skills repository. Use when asked to install, link, or troubleshoot the repository's skills on this computer.
-disable-model-invocation: false
+description: Set up shared skills on this computer. Use when installing this repository's skills, linking them into Claude Code or Codex, or troubleshooting those links.
 ---
 
 # Set up shared agent skills
 
-Link this repository's `skills/` directory into the personal skills directories used by Claude Code and Codex. Work on the computer where the user asked for setup. Do not assume the repository is at `~/agent-skills`; find its actual path first.
+## Locate and inspect
 
-## Find the repository
+1. Find the repository root from the working directory or this skill's location. Confirm its `skills/` directory and use the absolute path as the source. Work on the requested computer; if it is inaccessible, report the missing access before changing paths.
+2. Discover immediate skill folders by their `SKILL.md` entry points. Exclude tool-managed folders such as `synced/` and `.trash/`.
+3. Inspect both destination paths and their parents, including link targets and directory contents:
+   - Claude Code: `~/.claude/skills/`
+   - Codex: `~/.agents/skills/`
 
-1. Identify the repository root from the current working directory or the current skill file's location.
-2. Confirm that the root contains a `skills/` directory. Use its absolute path as the link target.
-3. If the current environment cannot access the user's machine or the repository root is unclear, explain what path or environment is needed before making changes.
+Continue when the source, skill inventory and state of each destination are known. Keep the tool configuration directories as real directories; link only their skills paths.
 
-## Inspect before changing paths
+## Choose links
 
-The personal skill directories are:
+Handle each destination independently:
 
-- Claude Code: `~/.claude/skills/`
-- Codex: `~/.agents/skills/`
+| Destination state | Action |
+| --- | --- |
+| Link to this repository's `skills/` | Leave it in place |
+| Absent | Create the parent and link the whole `skills/` directory |
+| Real directory | Preserve it and link each discovered skill folder into it |
+| Link elsewhere | Preserve it and report its target; ask which setup is wanted if the session has not already specified it |
+| File or unexpected item | Preserve it and report the conflict |
 
-Inspect both paths and their parent directories before creating links. Make the setup idempotent:
+For individual skills, leave a link resolving to the intended source in place. Create a link only at an absent path; preserve and report any other name collision. Inspect dangling links as existing paths too.
 
-- If a destination is already a symlink or junction to this repository's `skills/` directory, leave it as is.
-- If the destination does not exist, create a link to the repository's whole `skills/` directory.
-- If the destination is a link to a different location, do not overwrite it. Report what it points to and ask which setup the user wants.
-- If the destination is a real directory, preserve it. Link the repository's individual skill folders into it, skipping names that already exist. Report any name collisions rather than replacing their contents.
-- If a destination is a regular file or another unexpected item, do not change it. Explain the conflict.
+If the user has explicitly requested replacing a destination, preserve the old item at a unique backup path outside the active skills directory, then create the requested link. Restore the backup if creation fails. Otherwise preserve existing user data in place.
 
-Do not delete, replace, or move existing user data. Do not run `ln -s` or junction creation against an existing destination without first inspecting it.
+## Create links for the current platform
 
-## macOS and Linux
+Substitute the discovered source path in these examples. Run commands only for destinations already established as absent.
 
-Use symbolic links. Create the parent directories if needed. For an absent `skills/` destination, the command pattern is:
+### macOS and Linux
+
+Use symbolic links. For a whole-directory link:
 
 ```sh
 mkdir -p "$HOME/.claude" "$HOME/.agents"
-ln -s "/absolute/path/to/agent-skills/skills" "$HOME/.claude/skills"
-ln -s "/absolute/path/to/agent-skills/skills" "$HOME/.agents/skills"
+ln -s "/absolute/path/to/repository/skills" "$HOME/.claude/skills"
+ln -s "/absolute/path/to/repository/skills" "$HOME/.agents/skills"
 ```
 
-Substitute the discovered absolute repository path. If either destination is a real directory, create links for each repository skill folder instead:
+For an existing real skills directory, link each missing skill folder with the same `ln -s` pattern, using `skills/SKILL_NAME` as both the source suffix and destination suffix.
 
-```sh
-ln -s "/absolute/path/to/agent-skills/skills/SKILL_FOLDER" "$HOME/.claude/skills/SKILL_FOLDER"
-ln -s "/absolute/path/to/agent-skills/skills/SKILL_FOLDER" "$HOME/.agents/skills/SKILL_FOLDER"
-```
+### Windows
 
-Run one pair for each skill after checking each destination name. Create a parent skills directory when it is missing.
-
-## Windows
-
-Use directory junctions from PowerShell or Command Prompt. A junction usually does not require symlink privileges. Create parent directories as needed. For an absent `skills` destination, the Command Prompt pattern is:
+Use directory junctions. In Command Prompt, for a whole-directory link:
 
 ```bat
 if not exist "%USERPROFILE%\.claude" mkdir "%USERPROFILE%\.claude"
 if not exist "%USERPROFILE%\.agents" mkdir "%USERPROFILE%\.agents"
-mklink /J "%USERPROFILE%\.claude\skills" "C:\absolute\path\agent-skills\skills"
-mklink /J "%USERPROFILE%\.agents\skills" "C:\absolute\path\agent-skills\skills"
+mklink /J "%USERPROFILE%\.claude\skills" "C:\absolute\path\to\repository\skills"
+mklink /J "%USERPROFILE%\.agents\skills" "C:\absolute\path\to\repository\skills"
 ```
 
-Substitute the discovered absolute repository path. If the destination is already a real directory, preserve it and create junctions for individual skill folders that do not already exist. Do not run `mklink` for an existing path.
+For an existing real skills directory, create a junction for each missing skill folder, using `skills\SKILL_NAME` as both the source suffix and destination suffix.
 
 ## Verify and report
 
-After setup, inspect the links and confirm that each points to the discovered repository path or that the individual skill links resolve into its `skills/` directory. Report which tool directories were linked and any conflicts left untouched. If a tool does not discover newly added skills, suggest restarting that tool.
+Resolve each whole-directory link or individual skill link and confirm every discovered skill's `SKILL.md` is readable through each tool's destination. Account for every skill and tool as linked, already correct or blocked by a named conflict.
+
+Report the resulting paths, any backups and unresolved collisions. Suggest restarting the affected tool if it has not discovered the skills. A rerun with unchanged sources and destinations should make no changes.
