@@ -1,0 +1,5 @@
+interface:
+  display_name: "LibreNMS OS Support"
+  short_description: "Add or improve LibreNMS device OS support"
+policy:
+  allow_implicit_invocation: true

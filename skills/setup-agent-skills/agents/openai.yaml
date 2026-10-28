@@ -1,0 +1,5 @@
+interface:
+  display_name: "Set Up Agent Skills"
+  short_description: "Link shared skills into Claude Code and Codex"
+policy:
+  allow_implicit_invocation: true

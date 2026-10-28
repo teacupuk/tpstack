@@ -1,12 +1,16 @@
 ---
 name: unslop
-description: Cut AI tells from any writing.
-disable-model-invocation: false
+description: Edit prose to remove AI writing patterns. Use when drafting or revising user-facing text, documentation, or messages.
 ---
 
 # Unslop
 
-Edit text to remove AI patterns. Scan for the patterns below, then rewrite. Preserve meaning and match the intended tone.
+## Edit the text
+
+1. Identify the text to edit, its audience and intended tone. Use the supplied text or named file; ask for the target if the request leaves it unclear.
+2. Scan the whole target against the numbered patterns below. Rewrite applicable passages while preserving meaning, factual qualifications and the author's intended tone. Preserve quotations, code, commands, identifiers and URLs unless their content is explicitly part of the requested edit.
+3. Read the revised text as a whole. Finish when every applicable pattern has been addressed and the edit preserves the original claims and required terminology. Resolve unsupported attribution by qualifying or removing it rather than inventing a source.
+4. Return the revised text, or update the requested file and briefly report the change. Explain individual edits only when requested or needed to flag a factual uncertainty.
 
 ## Patterns to detect and fix
 
