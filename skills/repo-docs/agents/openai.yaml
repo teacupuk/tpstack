@@ -1,0 +1,5 @@
+interface:
+  display_name: "Repository Documentation"
+  short_description: "Set up user, developer and agent documentation"
+policy:
+  allow_implicit_invocation: false
