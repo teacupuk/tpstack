@@ -1,0 +1,3 @@
+# Tool-managed local skills and deleted-skill recovery data.
+/skills/synced/
+/skills/.trash/

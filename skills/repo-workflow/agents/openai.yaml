@@ -1,0 +1,5 @@
+interface:
+  display_name: "Repository Workflow"
+  short_description: "Prepare changes, commits and pull requests"
+policy:
+  allow_implicit_invocation: true
