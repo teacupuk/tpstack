@@ -11,6 +11,7 @@
 
 <p align="center">
   <a href="#getting-started">Get started</a> ·
+  <a href="#skill-reference">Skill reference</a> ·
   <a href="#writing-a-skill">Write a skill</a> ·
   <a href="#linking-to-claude-code-and-codex">Link the tools</a>
 </p>
@@ -24,10 +25,27 @@ Agent skills are reusable instructions for a particular kind of work. This repos
 Clone this repository somewhere convenient on each computer. The examples below use `~/agent-skills` on macOS or Linux and `%USERPROFILE%\agent-skills` on Windows.
 
 ```sh
-git clone YOUR_REPOSITORY_URL ~/agent-skills
+git clone https://github.com/teacupuk/tpstack.git ~/agent-skills
 ```
 
-Replace `YOUR_REPOSITORY_URL` with the URL for this repository. To bring your skills up to date later, run `git pull` from the cloned repository on that computer.
+To bring your skills up to date later, run `git pull` from the cloned repository on that computer.
+
+## Skill reference
+
+User-invoked skills run when you explicitly request them. Model-invoked skills can also be selected automatically when the task matches their description. Invoke a skill by name with `$skill-name` in Codex or `/skill-name` in Claude Code.
+
+### User-invoked
+
+- **[repo-docs](skills/repo-docs/SKILL.md)**: Set up or reorganise a repository's README, developer guide and agent instructions. Use it when establishing documentation or reviewing how existing docs fit together.
+
+### Model-invoked
+
+- **[setup-agent-skills](skills/setup-agent-skills/SKILL.md)**: Link this repository's skills into Claude Code and Codex on the current computer, preserving existing skills and reporting conflicts.
+- **[repo-workflow](skills/repo-workflow/SKILL.md)**: Apply the shared conventions for repository changes, commits, issues, PRs, merges and releases, while respecting each repository's own rules.
+- **[writing-for-agents](skills/writing-for-agents/SKILL.md)**: Write skills, `AGENTS.md`, `CLAUDE.md` and supporting agent documentation with clear triggers, steps and completion criteria.
+- **[unslop](skills/unslop/SKILL.md)**: Edit writing to remove AI tells while preserving its meaning and intended tone.
+
+This reference layout takes inspiration from [Matt Pocock's skills repository](https://github.com/mattpocock/skills#reference).
 
 ## Where skills live
 
@@ -115,6 +133,16 @@ Keep the description specific so it is clear when the skill applies. Add referen
 - If a new skill does not appear, check that the link points to this repository's `skills/` directory and that each skill folder contains `SKILL.md`.
 - Restart Claude Code or Codex if a newly added skill is not picked up.
 - You can link selected skill folders individually when you do not want every skill available in both tools.
+
+Tool-managed `skills/synced/` and `skills/.trash/` folders are local data and are ignored by Git.
+
+## Security
+
+Report vulnerabilities privately using the process in [SECURITY.md](SECURITY.md). Review a skill's instructions and supporting files before enabling it; skills can guide an agent to run commands or access external services under that agent's permissions.
+
+## Licence
+
+Original material is available under the [MIT licence](LICENSE). Imported material retains its upstream copyright and licence notices; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). The `writing-for-agents` skill is copied unchanged from Matt Pocock's repository.
 
 ---
 
